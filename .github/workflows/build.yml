@@ -17,13 +17,18 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Pasang Gradle 7.6 (Versi Kompatibel)
+    - name: Bersihkan Kode Bentrok
+      run: |
+        sed -i '/buildFlowServiceProperty/d' build.gradle.kts || true
+        find . -name "build.gradle.kts" -exec sed -i '/buildFlowServiceProperty/d' {} + || true
+
+    - name: Pasang Gradle 8.2 Sesuai Syarat Minimum
       uses: gradle/actions/setup-gradle@v3
       with:
-        gradle-version: '7.6'
+        gradle-version: '8.2'
 
-    - name: Buat Wrapper Kompatibel
-      run: gradle wrapper --gradle-version 7.6
+    - name: Buat Wrapper 8.2
+      run: gradle wrapper --gradle-version 8.2
 
     - name: Rakit APK Sekarang
       run: ./gradlew assembleDebug --no-daemon
