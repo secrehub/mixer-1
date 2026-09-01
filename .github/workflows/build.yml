@@ -16,16 +16,17 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Pasang Gradle Versi Cocok (8.2)
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        gradle-version: '8.2'
+    - name: Buat Gradle Wrapper Otomatis
+      run: gradle wrapper --gradle-version 8.2
 
-    - name: Build APK sekarang
-      run: gradle assembleDebug
+    - name: Beri Izin Eksekusi Wrapper
+      run: chmod +x gradlew
 
-    - name: Upload hasil APK
+    - name: Build APK Sekarang
+      run: ./gradlew assembleDebug
+
+    - name: Upload Hasil APK
       uses: actions/upload-artifact@v4
       with:
-        name: Aplikasi-Mixer-Final
+        name: Aplikasi-Mixer-Sukses
         path: app/build/outputs/apk/debug/app-debug.apk
