@@ -16,15 +16,11 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Beri izin eksekusi Gradle
-      run: chmod +x gradlew
-
-    - name: Build APK sekarang
-      run: ./gradlew assembleDebug
+    - name: Build APK pakai alat bawaan
+      run: gradle assembleDebug
 
     - name: Upload hasil APK
       uses: actions/upload-artifact@v4
       with:
-        name: Aplikasi-Mixer
+        name: Aplikasi-Mixer-Final
         path: app/build/outputs/apk/debug/app-debug.apk
-        
