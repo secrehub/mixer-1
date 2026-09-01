@@ -17,10 +17,12 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Aktifkan Fitur AndroidX
+    - name: Konfigurasi RAM & AndroidX
       run: |
         echo "android.useAndroidX=true" >> gradle.properties
         echo "android.enableJetifier=true" >> gradle.properties
+        echo "org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m" >> gradle.properties
+        echo "org.gradle.parallel=true" >> gradle.properties
 
     - name: Bersihkan Kode Bentrok
       run: |
