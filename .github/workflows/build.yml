@@ -17,10 +17,13 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Generasi Ulang File Wrapper yang Hilang
-      run: |
-        gradle wrapper --gradle-version 8.2 --distribution-type all
-        chmod +x gradlew
+    - name: Pasang Gradle 7.6 (Versi Kompatibel)
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-version: '7.6'
+
+    - name: Buat Wrapper Kompatibel
+      run: gradle wrapper --gradle-version 7.6
 
     - name: Rakit APK Sekarang
       run: ./gradlew assembleDebug --no-daemon
@@ -30,4 +33,3 @@ jobs:
       with:
         name: Aplikasi-Mixer-Sukses
         path: app/build/outputs/apk/debug/app-debug.apk
-        
