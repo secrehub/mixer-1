@@ -8,22 +8,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Ambil Kode Asli
+      uses: actions/checkout@v4
 
-    - name: Set up Java 17
+    - name: Pasang Java 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Buat Gradle Wrapper Otomatis
-      run: gradle wrapper --gradle-version 8.2
+    - name: Download Alat Perakit Khusus (Gradle 8.0)
+      run: |
+        wget -q https://services.gradle.org/distributions/gradle-8.0-bin.zip
+        unzip -q gradle-8.0-bin.zip
+        echo "$GITHUB_WORKSPACE/gradle-8.0/bin" >> $GITHUB_PATH
 
-    - name: Beri Izin Eksekusi Wrapper
-      run: chmod +x gradlew
+    - name: Perbaiki Kode Cacat Secara Otomatis
+      run: |
+        sed -i '/buildFlowServiceProperty/d' build.gradle.kts || true
+        find . -name "build.gradle.kts" -exec sed -i '/buildFlowServiceProperty/d' {} + || true
 
-    - name: Build APK Sekarang
-      run: ./gradlew assembleDebug
+    - name: Rakit APK Sekarang
+      run: gradle assembleDebug --no-daemon
 
     - name: Upload Hasil APK
       uses: actions/upload-artifact@v4
