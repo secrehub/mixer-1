@@ -10,13 +10,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Java
+    - name: Set up Java 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Build APK pakai alat bawaan
+    - name: Pasang Gradle Versi Cocok (8.2)
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-version: '8.2'
+
+    - name: Build APK sekarang
       run: gradle assembleDebug
 
     - name: Upload hasil APK
