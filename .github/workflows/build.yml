@@ -17,12 +17,17 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: Aktifkan Fitur AndroidX
+      run: |
+        echo "android.useAndroidX=true" >> gradle.properties
+        echo "android.enableJetifier=true" >> gradle.properties
+
     - name: Bersihkan Kode Bentrok
       run: |
         sed -i '/buildFlowServiceProperty/d' build.gradle.kts || true
         find . -name "build.gradle.kts" -exec sed -i '/buildFlowServiceProperty/d' {} + || true
 
-    - name: Pasang Gradle 8.2 Sesuai Syarat Minimum
+    - name: Pasang Gradle 8.2
       uses: gradle/actions/setup-gradle@v3
       with:
         gradle-version: '8.2'
