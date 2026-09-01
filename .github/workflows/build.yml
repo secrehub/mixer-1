@@ -17,22 +17,17 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Download Alat Perakit Khusus (Gradle 8.2)
+    - name: Generasi Ulang File Wrapper yang Hilang
       run: |
-        wget -q https://services.gradle.org/distributions/gradle-8.2-bin.zip
-        unzip -q gradle-8.2-bin.zip
-        echo "$GITHUB_WORKSPACE/gradle-8.2/bin" >> $GITHUB_PATH
-
-    - name: Perbaiki Kode Cacat Secara Otomatis
-      run: |
-        sed -i '/buildFlowServiceProperty/d' build.gradle.kts || true
-        find . -name "build.gradle.kts" -exec sed -i '/buildFlowServiceProperty/d' {} + || true
+        gradle wrapper --gradle-version 8.2 --distribution-type all
+        chmod +x gradlew
 
     - name: Rakit APK Sekarang
-      run: gradle assembleDebug --no-daemon --stacktrace
+      run: ./gradlew assembleDebug --no-daemon
 
     - name: Upload Hasil APK
       uses: actions/upload-artifact@v4
       with:
         name: Aplikasi-Mixer-Sukses
         path: app/build/outputs/apk/debug/app-debug.apk
+        
